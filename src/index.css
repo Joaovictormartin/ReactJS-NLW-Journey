@@ -9,3 +9,34 @@
 input {
   color-scheme: dark;
 }
+
+.my-day-picker .rdp-day_selected,
+.my-day-picker .rdp-day_selected:focus,
+.my-day-picker .rdp-day_selected:hover {
+  background-color: #bef264;
+  color: #000000;
+  font-weight: 600;
+}
+
+.my-day-picker .rdp-day_selected_start,
+.my-day-picker .rdp-day_selected_end,
+.my-day-picker .rdp-day_selected_start:hover,
+.my-day-picker .rdp-day_selected_end:hover {
+  background-color: #bef264;
+  color: #000000;
+  font-weight: 600;
+}
+
+.my-day-picker .rdp-day_range_start,
+.my-day-picker .rdp-day_range_end,
+.my-day-picker .rdp-day_range_middle {
+  background-color: #bef264;
+  color: #000000;
+  font-weight: 600;
+}
+
+.my-day-picker .rdp-day:not(.rdp-day_outside):hover,
+.my-day-picker .rdp-day:not(.rdp-day_outside):focus {
+  background-color: #bef264;
+  color: #000000;
+}
