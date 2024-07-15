@@ -1,25 +1,61 @@
+import { useState } from "react";
+import { format } from "date-fns/format";
+import { DateRange } from "react-day-picker";
 import { ArrowRight, Calendar, MapPin, Settings2 } from "lucide-react";
 
 import { Button } from "../../../components/button";
+import { DatePickerModal } from "./date-picker-modal";
 
 interface destinationAndDateStepProps {
   isGuestsInputOpen: boolean;
   openGuestsInput: () => void;
   closeGuestsInput: () => void;
+  eventStartAndEndDates: DateRange | undefined;
+  setDestination: (destination: string) => void;
+  setEventStartAndEndDates: (date: DateRange | undefined) => void;
 }
 
-export function DestinationAndDateStep({ isGuestsInputOpen, closeGuestsInput, openGuestsInput }: destinationAndDateStepProps) {
+export function DestinationAndDateStep({
+  setDestination,
+  openGuestsInput,
+  closeGuestsInput,
+  isGuestsInputOpen,
+  eventStartAndEndDates,
+  setEventStartAndEndDates,
+}: destinationAndDateStepProps) {
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+
+  const openIsDatePicker = () => setIsDatePickerOpen(true);
+  const closeIsDatePicker = () => setIsDatePickerOpen(false);
+
+  const displayedDate =
+    eventStartAndEndDates && eventStartAndEndDates.from && eventStartAndEndDates.to
+      ? format(eventStartAndEndDates.from, "d' de 'LLL")
+          .concat(" até ")
+          .concat(format(eventStartAndEndDates.to, "d' de 'LLL"))
+      : "Quando?";
+
   return (
     <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3">
       <div className="flex items-center gap-2 flex-1">
         <MapPin className="size-5 text-zinc-400" />
-        <input disabled={isGuestsInputOpen} type="text" placeholder="Para onde você vai?" className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1" />
+        <input
+          type="text"
+          disabled={isGuestsInputOpen}
+          placeholder="Para onde você vai?"
+          onChange={(e) => setDestination(e.target.value)}
+          className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
+        />
       </div>
 
-      <div className="flex items-center gap-2">
+      <button
+        onClick={openIsDatePicker}
+        disabled={isGuestsInputOpen}
+        className="flex items-center gap-2 text-left"
+      >
         <Calendar className="size-5 text-zinc-400" />
-        <input disabled={isGuestsInputOpen} type="text" placeholder="Quando?" className="bg-transparent text-lg placeholder-zinc-400 w-40 outline-none" />
-      </div>
+        <span className="text-lg text-zinc-400 w-45">{displayedDate}</span>
+      </button>
 
       <div className="w-px h-6 bg-zinc-800" />
 
@@ -33,6 +69,14 @@ export function DestinationAndDateStep({ isGuestsInputOpen, closeGuestsInput, op
           Continuar
           <ArrowRight className="size-5" />
         </Button>
+      )}
+
+      {isDatePickerOpen && (
+        <DatePickerModal
+          closeIsDatePicker={closeIsDatePicker}
+          eventStartAndEndDates={eventStartAndEndDates}
+          setEventStartAndEndDates={setEventStartAndEndDates}
+        />
       )}
     </div>
   );
