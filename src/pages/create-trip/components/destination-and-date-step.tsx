@@ -4,7 +4,7 @@ import { DateRange } from "react-day-picker";
 import { ArrowRight, Calendar, MapPin, Settings2 } from "lucide-react";
 
 import { Button } from "../../../components/button";
-import { DatePickerModal } from "./date-picker-modal";
+import { DatePickerModal } from "../../../components/date-picker-modal";
 
 interface destinationAndDateStepProps {
   isGuestsInputOpen: boolean;

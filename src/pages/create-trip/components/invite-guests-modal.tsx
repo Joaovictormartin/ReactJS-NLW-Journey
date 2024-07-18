@@ -1,7 +1,7 @@
 import { FormEvent } from "react";
 import { AtSign, Plus, X } from "lucide-react";
 
-import { Button } from "../../components/button";
+import { Button } from "../../../components/button";
 
 interface InviteGuestModalProps {
   emailsToInvite: string[];

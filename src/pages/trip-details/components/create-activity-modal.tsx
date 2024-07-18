@@ -2,9 +2,9 @@ import { FormEvent } from "react";
 import { format } from "date-fns";
 import { Calendar, Tag, X } from "lucide-react";
 
-import { tripProps } from ".";
-import { api } from "../../services/api";
-import { Button } from "../../components/button";
+import { tripProps } from "..";
+import { api } from "../../../services/api";
+import { Button } from "../../../components/button";
 import { useParams } from "react-router-dom";
 
 interface createActivityModalProps {

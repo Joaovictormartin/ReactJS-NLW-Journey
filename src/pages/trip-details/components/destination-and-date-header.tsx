@@ -1,8 +1,8 @@
 import { format } from "date-fns";
 import { Calendar, MapPin, Settings2 } from "lucide-react";
 
-import { tripProps } from ".";
-import { Button } from "../../components/button";
+import { tripProps } from "..";
+import { Button } from "../../../components/button";
 
 interface destinationAndDateHeaderProps {
   trip: tripProps | undefined;

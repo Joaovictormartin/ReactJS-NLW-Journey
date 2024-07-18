@@ -3,10 +3,10 @@ import { DateRange } from "react-day-picker";
 import { useNavigate } from "react-router-dom";
 
 import { api } from "../../services/api";
-import { InviteGuestModal } from "./invite-guests-modal";
-import { ConfirmTripModal } from "./confirm-trip-modal";
-import { InviteGuestsStep } from "./steps/invite-guests-step";
-import { DestinationAndDateStep } from "./steps/destination-and-date-step";
+import { InviteGuestModal } from "./components/invite-guests-modal";
+import { ConfirmTripModal } from "./components/confirm-trip-modal";
+import { InviteGuestsStep } from "./components/invite-guests-step";
+import { DestinationAndDateStep } from "./components/destination-and-date-step";
 
 export function CreateTripPage() {
   const navigate = useNavigate();

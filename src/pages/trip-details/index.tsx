@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
 import { useParams } from "react-router-dom";
 
-import { Guests } from "./guests";
+import { Guests } from "./components/guests";
 import { api } from "../../services/api";
-import { Activities } from "./activities";
+import { Activities } from "./components/activities";
 import { Button } from "../../components/button";
-import { ImportantLinks } from "./important-links";
-import { CreateActivityModal } from "./create-activity-modal";
-import { DestinationAndDateHeader } from "./destination-and-date-header";
+import { ImportantLinks } from "./components/important-links";
+import { CreateActivityModal } from "./components/create-activity-modal";
+import { DestinationAndDateHeader } from "./components/destination-and-date-header";
 
 export interface tripProps {
   id: string;
