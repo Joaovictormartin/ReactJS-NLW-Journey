@@ -39,7 +39,7 @@ export function TripDetailsPage() {
   }, [tripId, isCreateActivityModalOpen]);
 
   return (
-    <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
+    <div className="max-w-6xl px-4 py-6 mx-auto space-y-8 sm:px-6 sm:py-10">
       <DestinationAndDateHeader trip={trip} />
 
       <main className="flex gap-16 px-4 flex-col 2md:flex-row">

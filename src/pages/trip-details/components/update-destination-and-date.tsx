@@ -73,7 +73,7 @@ export function UpdateDestinationAndDate({
         </div>
 
         <form onSubmit={handleUpdate} className="space-y-3">
-          <div className="flex justify-center">
+          <div className="flex flex-col justify-center sm:flex-row">
             <div className="p-2.5 h-14 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2.5 flex-1">
               <MapPin className="size-5 text-zinc-400" />
               <input

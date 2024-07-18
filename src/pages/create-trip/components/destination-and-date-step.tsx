@@ -36,7 +36,7 @@ export function DestinationAndDateStep({
       : "Quando?";
 
   return (
-    <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3">
+    <div className="py-4 bg-zinc-900 px-4 rounded-xl flex flex-col items-center shadow-shape gap-3 sm:flex-row sm:h-16">
       <div className="flex items-center gap-2 flex-1">
         <MapPin className="size-5 text-zinc-400" />
         <input
@@ -57,7 +57,7 @@ export function DestinationAndDateStep({
         <span className="text-lg text-zinc-400 w-45">{displayedDate}</span>
       </button>
 
-      <div className="w-px h-6 bg-zinc-800" />
+      <div className="w-px h-6 bg-zinc-800 hidden sm:block" />
 
       {isGuestsInputOpen ? (
         <Button onClick={closeGuestsInput} variant="secondary">
