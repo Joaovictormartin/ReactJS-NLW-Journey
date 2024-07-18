@@ -1,14 +1,21 @@
+import { useState } from "react";
 import { format } from "date-fns";
 import { Calendar, MapPin, Settings2 } from "lucide-react";
 
 import { tripProps } from "..";
 import { Button } from "../../../components/button";
+import { UpdateDestinationAndDate } from "./update-destination-and-date";
 
 interface destinationAndDateHeaderProps {
   trip: tripProps | undefined;
 }
 
 export function DestinationAndDateHeader({ trip }: destinationAndDateHeaderProps) {
+  const [updadeDateModalOpen, setUpdadeDateModalOpen] = useState(false);
+
+  const openCreateUpdateDateModalOpen = () => setUpdadeDateModalOpen(true);
+  const closeCreateUpdateDateModalOpen = () => setUpdadeDateModalOpen(false);
+
   const displayedDate = trip
     ? format(trip?.starts_at, "d' de 'LLL")
         .concat(" até ")
@@ -32,11 +39,18 @@ export function DestinationAndDateHeader({ trip }: destinationAndDateHeaderProps
 
         <div className="w-px h-6 bg-zinc-600 hidden sm:block" />
 
-        <Button variant="secondary">
+        <Button onClick={openCreateUpdateDateModalOpen} variant="secondary">
           Alterar local/data
           <Settings2 className="size-5" />
         </Button>
       </div>
+
+      {updadeDateModalOpen && (
+        <UpdateDestinationAndDate
+          trip={trip}
+          closeCreateActivityModalOpen={closeCreateUpdateDateModalOpen}
+        />
+      )}
     </div>
   );
 }
