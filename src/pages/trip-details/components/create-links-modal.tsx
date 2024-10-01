@@ -1,9 +1,10 @@
 import { FormEvent } from "react";
 import { Link2, Tag, X } from "lucide-react";
-
-import { api } from "../../../services/api";
-import { Button } from "../../../components/button";
 import { useParams } from "react-router-dom";
+
+import { Button } from "../../../components/button";
+import { usePostLinks } from "../../../hooks/links";
+import { toast } from "sonner";
 
 interface createLinksModalProps {
   closeCreateLinksModalOpen: () => void;
@@ -11,20 +12,25 @@ interface createLinksModalProps {
 
 export function CreateLinksModal({ closeCreateLinksModalOpen }: createLinksModalProps) {
   const { tripId } = useParams();
+  const { mutateAsync: postLinks } = usePostLinks();
 
-  const handleCreateLinks = (event: FormEvent<HTMLFormElement>) => {
+  const handleCreateLinks = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
     const title = data.get("title")?.toString();
     const url = data.get("url")?.toString();
 
-    if (!title || !url) return;
+    if (!title) {
+      toast.warning("O título é obrigatório.");
+      return;
+    }
+    if (!url) {
+      toast.warning("A URL é obrigatório.");
+      return;
+    }
 
-    api.post(`/trips/${tripId}/links`, { title, url });
-
-    window.location.reload();
-    event.currentTarget.reset();
+    await postLinks({ tripId, title, url });
     closeCreateLinksModalOpen();
   };
 

@@ -4,21 +4,19 @@ import { useParams } from "react-router-dom";
 import { DateRange } from "react-day-picker";
 import { Calendar, MapPin, X } from "lucide-react";
 
-import { tripProps } from "..";
-import { api } from "../../../services/api";
+import { TripGet } from "../../../models/trips";
+import { usePutTrips } from "../../../hooks/trips";
 import { Button } from "../../../components/button";
 import { DatePickerModal } from "../../../components/date-picker-modal";
 
-interface updateDestinationAndDateProps {
-  trip: tripProps | undefined;
+interface Props {
+  trip: TripGet | undefined;
   closeCreateActivityModalOpen: () => void;
 }
 
-export function UpdateDestinationAndDate({
-  trip,
-  closeCreateActivityModalOpen,
-}: updateDestinationAndDateProps) {
+export function UpdateDestinationAndDate({ trip, closeCreateActivityModalOpen }: Props) {
   const { tripId } = useParams();
+  const { mutateAsync: putTrips } = usePutTrips();
 
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [destination, setDestination] = useState<string | undefined>("");
@@ -34,19 +32,19 @@ export function UpdateDestinationAndDate({
           .concat(format(eventStartAndEndDates?.to, "d' de 'LLL"))
       : "";
 
-  const handleUpdate = (event: FormEvent<HTMLFormElement>) => {
+  const handleUpdate = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!destination || !eventStartAndEndDates?.from || !eventStartAndEndDates?.to) return;
 
-    api.put(`/trips/${tripId}`, {
+    const body = {
+      tripId: tripId,
       destination: destination,
       ends_at: eventStartAndEndDates?.to,
       starts_at: eventStartAndEndDates?.from,
-    });
+    };
 
-    window.location.reload();
-    event.currentTarget.reset();
+    await putTrips(body);
     closeCreateActivityModalOpen();
   };
 

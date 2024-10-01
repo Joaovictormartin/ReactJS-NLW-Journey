@@ -32,7 +32,7 @@ export function InviteGuestModal({
 
         <div className="flex flex-wrap gap-2">
           {emailsToInvite.length > 0 ? (
-            emailsToInvite.map((email, index) => (
+            emailsToInvite?.map((email, index) => (
               <div
                 key={index}
                 className="py-1.5 px-2.5 rounded-md bg-zinc-800 flex items-center gap-2 flex-grow"

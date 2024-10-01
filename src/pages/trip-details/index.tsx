@@ -1,42 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Plus } from "lucide-react";
 import { useParams } from "react-router-dom";
 
 import { Guests } from "./components/guests";
-import { api } from "../../services/api";
-import { Activities } from "./components/activities";
+import { useGetTrips } from "../../hooks/trips";
 import { Button } from "../../components/button";
+import { Activities } from "./components/activities";
 import { ImportantLinks } from "./components/important-links";
 import { CreateActivityModal } from "./components/create-activity-modal";
 import { DestinationAndDateHeader } from "./components/destination-and-date-header";
 
-export interface tripProps {
-  id: string;
-  ends_at: string;
-  starts_at: string;
-  destination: string;
-  is_confirmed: boolean;
-  participants: {
-    id: string;
-    name: string | null;
-    email: string;
-    is_confirmed: boolean;
-    is_owner: boolean;
-  }[];
-}
-
 export function TripDetailsPage() {
   const { tripId } = useParams();
+  const { data: trip } = useGetTrips(tripId ? tripId : "");
 
-  const [trip, setTrip] = useState<tripProps | undefined>();
   const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] = useState(false);
 
   const openCreateActivityModalOpen = () => setIsCreateActivityModalOpen(true);
   const closeCreateActivityModalOpen = () => setIsCreateActivityModalOpen(false);
-
-  useEffect(() => {
-    api.get(`/trips/${tripId}/confirm`).then((response) => setTrip(response.data.trip));
-  }, [tripId, isCreateActivityModalOpen]);
 
   return (
     <div className="max-w-6xl px-4 py-6 mx-auto space-y-8 sm:px-6 sm:py-10">
@@ -59,7 +40,7 @@ export function TripDetailsPage() {
         <div className="flex-1 space-y-6 2md:w-80">
           <ImportantLinks />
           <div className="w-full h-px bg-zinc-800" />
-          <Guests trip={trip} />
+          <Guests />
         </div>
       </main>
 

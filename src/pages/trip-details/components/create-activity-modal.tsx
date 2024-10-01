@@ -1,36 +1,39 @@
+import { toast } from "sonner";
 import { FormEvent } from "react";
 import { format } from "date-fns";
+import { useParams } from "react-router-dom";
 import { Calendar, Tag, X } from "lucide-react";
 
-import { tripProps } from "..";
-import { api } from "../../../services/api";
+import { TripGet } from "../../../models/trips";
 import { Button } from "../../../components/button";
-import { useParams } from "react-router-dom";
+import { usePostActivities } from "../../../hooks/activities";
 
-interface createActivityModalProps {
-  trip: tripProps | undefined;
+interface Props {
+  trip: TripGet | undefined;
   closeCreateActivityModalOpen: () => void;
 }
 
-export function CreateActivityModal({
-  trip,
-  closeCreateActivityModalOpen,
-}: createActivityModalProps) {
+export function CreateActivityModal({ trip, closeCreateActivityModalOpen }: Props) {
   const { tripId } = useParams();
+  const { mutateAsync: postActivities } = usePostActivities();
 
-  const handleCreateActivity = (event: FormEvent<HTMLFormElement>) => {
+  const handleCreateActivity = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
     const title = data.get("title")?.toString();
     const occurs_at = data.get("occurs_at")?.toString();
 
-    if (!title || !occurs_at) return;
+    if (!title) {
+      toast.warning("Por favor adicione uma atividade");
+      return;
+    }
+    if (!occurs_at) {
+      toast.warning("Por favor selecione uma data");
+      return;
+    }
 
-    api.post(`/trips/${tripId}/activities`, { title, occurs_at });
-
-    window.location.reload();
-    event.currentTarget.reset();
+    await postActivities({ tripId, title, occurs_at });
     closeCreateActivityModalOpen();
   };
 

@@ -1,9 +1,10 @@
+import { toast } from "sonner";
 import { FormEvent } from "react";
 import { AtSign, X } from "lucide-react";
 
-import { api } from "../../../services/api";
-import { Button } from "../../../components/button";
 import { useParams } from "react-router-dom";
+import { Button } from "../../../components/button";
+import { usePostParticipants } from "../../../hooks/participants";
 
 interface inviteGuestModallProps {
   closeCreateGuestsModalOpen: () => void;
@@ -11,19 +12,20 @@ interface inviteGuestModallProps {
 
 export function InviteGuestModal({ closeCreateGuestsModalOpen }: inviteGuestModallProps) {
   const { tripId } = useParams();
+  const { mutateAsync: postParticipants } = usePostParticipants();
 
-  const handleCreateGuests = (event: FormEvent<HTMLFormElement>) => {
+  const handleCreateGuests = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
     const email = data.get("email")?.toString();
 
-    if (!email) return;
+    if (!email) {
+      toast.warning("O email é obrigatório.");
+      return;
+    }
 
-    api.post(`/trips/${tripId}/invites`, { email });
-
-    window.location.reload();
-    event.currentTarget.reset();
+    await postParticipants({ tripId, email });
     closeCreateGuestsModalOpen();
   };
 

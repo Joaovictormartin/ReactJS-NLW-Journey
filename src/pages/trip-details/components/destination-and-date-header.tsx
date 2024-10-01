@@ -2,15 +2,15 @@ import { useState } from "react";
 import { format } from "date-fns";
 import { Calendar, MapPin, Settings2 } from "lucide-react";
 
-import { tripProps } from "..";
+import { TripGet } from "../../../models/trips";
 import { Button } from "../../../components/button";
 import { UpdateDestinationAndDate } from "./update-destination-and-date";
 
-interface destinationAndDateHeaderProps {
-  trip: tripProps | undefined;
+interface Props {
+  trip: TripGet | undefined;
 }
 
-export function DestinationAndDateHeader({ trip }: destinationAndDateHeaderProps) {
+export function DestinationAndDateHeader({ trip }: Props) {
   const [updadeDateModalOpen, setUpdadeDateModalOpen] = useState(false);
 
   const openCreateUpdateDateModalOpen = () => setUpdadeDateModalOpen(true);

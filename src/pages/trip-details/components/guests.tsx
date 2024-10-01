@@ -1,23 +1,25 @@
 import { useState } from "react";
 import { CircleCheck, CircleDashed, StarIcon, Plus } from "lucide-react";
 
-import { tripProps } from "..";
-import { api } from "../../../services/api";
+import { useParams } from "react-router-dom";
 import { Button } from "../../../components/button";
 import { InviteGuestModal } from "./invite-guest-modal";
+import { ParticipantsGet } from "../../../models/participants";
+import { useGetParticipants, usePutParticipants } from "../../../hooks/participants";
 
-interface guestsProps {
-  trip: tripProps | undefined;
-}
+export function Guests() {
+  const { tripId } = useParams();
+  const { mutateAsync: putParticipants } = usePutParticipants();
+  const { data: getParticipants } = useGetParticipants(tripId ? tripId : "");
 
-export function Guests({ trip }: guestsProps) {
   const [showGuestModal, setShowGuestModal] = useState(false);
 
   const openGuestsModal = () => setShowGuestModal(true);
   const closeGuestsModal = () => setShowGuestModal(false);
 
-  const handleUpdateStatus = (participantId: string) => {
-    api.get(`/participants/${participantId}/confirm`).then(() => window.location.reload());
+  const handleUpdateStatus = async (participant: ParticipantsGet) => {
+    const body = { participantId: participant.id, is_confirmed: !participant.is_confirmed };
+    await putParticipants(body);
   };
 
   return (
@@ -25,7 +27,7 @@ export function Guests({ trip }: guestsProps) {
       <h2 className="font-semibold text-xl">Convidados</h2>
 
       <div className="space-y-5">
-        {trip?.participants.map((participant, index) => (
+        {getParticipants?.map((participant, index) => (
           <div key={index} className="flex items-center justify-between gap-4">
             <div className="space-y-1.5">
               <div className="flex items-center gap-1">
@@ -35,11 +37,14 @@ export function Guests({ trip }: guestsProps) {
               <span className="block text-xm text-zinc-400 truncate">{participant.email}</span>
             </div>
             {participant.is_confirmed ? (
-              <CircleCheck className="size-5 text-lime-400 shrink-0" />
+              <CircleCheck
+                onClick={() => handleUpdateStatus(participant)}
+                className="size-5 text-lime-400 shrink-0 cursor-pointer"
+              />
             ) : (
               <CircleDashed
-                className="size-5 text-zinc-400 shrink-0"
-                onClick={() => handleUpdateStatus(participant.id)}
+                onClick={() => handleUpdateStatus(participant)}
+                className="size-5 text-zinc-400 shrink-0 cursor-pointer"
               />
             )}
           </div>
@@ -55,5 +60,3 @@ export function Guests({ trip }: guestsProps) {
     </div>
   );
 }
-
-//jornada

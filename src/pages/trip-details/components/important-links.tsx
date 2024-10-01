@@ -1,31 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link2, Plus } from "lucide-react";
 import { useParams } from "react-router-dom";
 
-import { api } from "../../../services/api";
+import { useGetLinks } from "../../../hooks/links";
 import { Button } from "../../../components/button";
 import { CreateLinksModal } from "./create-links-modal";
 
-interface linksProps {
-  id: string;
-  title: string;
-  url: string;
-}
-
-interface importantLinksProps {}
-
-export function ImportantLinks({}: importantLinksProps) {
+export function ImportantLinks() {
   const { tripId } = useParams();
+  const { data: links } = useGetLinks(tripId ? tripId : "");
 
-  const [links, setLinks] = useState<linksProps[] | undefined>([]);
   const [linksModalOpen, setLinksModalOpen] = useState(false);
 
   const openCreateLinksModalOpen = () => setLinksModalOpen(true);
   const closeCreateLinksModalOpen = () => setLinksModalOpen(false);
-
-  useEffect(() => {
-    api.get(`/trips/${tripId}/links`).then((response) => setLinks(response.data.links));
-  }, [tripId]);
 
   return (
     <div className="space-y-6">

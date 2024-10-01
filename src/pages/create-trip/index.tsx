@@ -2,14 +2,16 @@ import { FormEvent, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useNavigate } from "react-router-dom";
 
-import { api } from "../../services/api";
+import { usePostTrips } from "../../hooks/trips";
 import { InviteGuestModal } from "./components/invite-guests-modal";
 import { ConfirmTripModal } from "./components/confirm-trip-modal";
 import { InviteGuestsStep } from "./components/invite-guests-step";
 import { DestinationAndDateStep } from "./components/destination-and-date-step";
+import { toast } from "sonner";
 
 export function CreateTripPage() {
   const navigate = useNavigate();
+  const { mutateAsync: postTrips } = usePostTrips();
 
   const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false);
   const [isGuestsModalOpen, setIsGuestsModalOpen] = useState(false);
@@ -21,14 +23,21 @@ export function CreateTripPage() {
   const [emailsToInvite, setEmailsToInvite] = useState<string[]>([]);
   const [eventStartAndEndDates, setEventStartAndEndDates] = useState<DateRange | undefined>();
 
+  const openGuestsModal = () => setIsGuestsModalOpen(true);
+  const closeGuestsModal = () => setIsGuestsModalOpen(false);
+
   const openGuestsInput = () => {
-    if (!destination || !eventStartAndEndDates?.from || !eventStartAndEndDates?.to) return;
+    if (!destination) {
+      toast.warning("O destino é obrigatório!");
+      return;
+    }
+    if (!eventStartAndEndDates?.from || !eventStartAndEndDates?.to) {
+      toast.warning("Selecione a data de início e fim");
+      return;
+    }
     setIsGuestsInputOpen(true);
   };
   const closeGuestsInput = () => setIsGuestsInputOpen(false);
-
-  const openGuestsModal = () => setIsGuestsModalOpen(true);
-  const closeGuestsModal = () => setIsGuestsModalOpen(false);
 
   const openConfirmTripModal = () => {
     if (emailsToInvite.length === 0) return;
@@ -56,8 +65,14 @@ export function CreateTripPage() {
     event.preventDefault();
 
     if (!destination) return;
-    if (!ownerName || !ownerEmail) return;
-    if (emailsToInvite.length === 0) return;
+    if (!ownerName || !ownerEmail) {
+      toast.warning("O nome e email é obrigatório!");
+      return;
+    }
+    if (emailsToInvite.length === 0) {
+      toast.warning("No mínimo um email de convidado.");
+      return;
+    }
     if (!eventStartAndEndDates?.from || !eventStartAndEndDates?.to) return;
 
     const body = {
@@ -69,7 +84,7 @@ export function CreateTripPage() {
       starts_at: eventStartAndEndDates?.from,
     };
 
-    const response = await api.post("/trips", body);
+    const response = await postTrips(body);
     const { tripId } = response.data;
 
     navigate(`trip/${tripId}`);

@@ -1,34 +1,18 @@
-import { useEffect, useState } from "react";
 import { ptBR } from "date-fns/locale";
-import { CircleCheck, CircleDashed } from "lucide-react";
 import { format, isBefore } from "date-fns";
 import { useParams } from "react-router-dom";
+import { CircleCheck, CircleDashed } from "lucide-react";
 
-import { api } from "../../../services/api";
-
-interface activitiesProps {
-  date: string;
-  activities: {
-    id: string;
-    title: string;
-    occurs_at: string;
-  }[];
-}
+import { useGetActivities } from "../../../hooks/activities";
+import { ActivityCategory, ActivitiesGet } from "../../../models/activities";
 
 export function Activities() {
   const { tripId } = useParams();
-
-  const [activities, setActivities] = useState<activitiesProps[] | undefined>([]);
-
-  useEffect(() => {
-    api.get(`/trips/${tripId}/activities`).then((response) => {
-      setActivities(response.data.activities);
-    });
-  }, [tripId]);
+  const { data: activities } = useGetActivities(tripId ? tripId : "");
 
   return (
     <div className="space-y-8">
-      {activities?.map((category, index) => (
+      {activities?.map((category: ActivitiesGet, index: number) => (
         <div key={index} className="space-y-2.5">
           <div className="flex gap-2 items-baseline">
             <span className="text-xl text-zinc-300 font-semibold">
@@ -40,7 +24,7 @@ export function Activities() {
           </div>
           {category?.activities?.length > 0 ? (
             <div className="space-y-2.5">
-              {category?.activities?.map((activity, i) => (
+              {category?.activities?.map((activity: ActivityCategory, i: number) => (
                 <div key={i} className="space-y-2.5">
                   <div className="px-4 py-2.5 bg-zinc-900 rounded-xl shadow-shape flex items-center gap-3">
                     {isBefore(new Date(activity.occurs_at), new Date()) ? (
