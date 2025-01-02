@@ -12,7 +12,7 @@ interface inviteGuestModallProps {
 
 export function InviteGuestModal({ closeCreateGuestsModalOpen }: inviteGuestModallProps) {
   const { tripId } = useParams();
-  const { mutateAsync: postParticipants } = usePostParticipants();
+  const { mutateAsync: postParticipants, isPending } = usePostParticipants();
 
   const handleCreateGuests = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -57,7 +57,7 @@ export function InviteGuestModal({ closeCreateGuestsModalOpen }: inviteGuestModa
             />
           </div>
 
-          <Button type="submit" size="full">
+          <Button type="submit" size="full" disabled={isPending}>
             Salvar
           </Button>
         </form>

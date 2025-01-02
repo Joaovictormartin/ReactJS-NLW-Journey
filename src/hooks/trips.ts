@@ -28,7 +28,7 @@ export const usePostTrips = (): any => {
     },
     onError: (err: AxiosError) => {
       if (err.response?.status === 400) {
-        toast.error(err.response?.data?.errors?.destination[0]);
+        toast.error(err.response?.data?.message);
       } else {
         console.error(err);
       }
