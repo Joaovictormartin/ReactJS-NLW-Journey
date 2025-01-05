@@ -1,30 +1,89 @@
-# React + TypeScript + Vite
+# Boas-vindas ao projeto Plann.er
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+O projeto **Plann.er** é criar uma plataforma que permita aos usuários planejar suas viagens, cadastrar atividades, e links úteis para a viagem, além de poder convidar amigos para acompanhar o planejamento.
 
-Currently, two official plugins are available:
+Esse é um projeto do evento **NLW Journey**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Overview do Projeto
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+O **Plann.er** oferece as seguintes funcionalidades principais:
 
-- Configure the top-level `parserOptions` property like this:
+- **Criar e organizar suas viagens**
+- **Cadastrar atividades, eventos e locais de interesse**
+- **Convidar amigos para visualizar e participar do planejamento.**
+- **Adicionar links úteis relacionados à viagem (como mapas, reservas ou guias)**
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+---
+
+## Como executar o projeto
+
+Para executar o **Plann.er**, você precisa clonar o repositório, instalar as dependências.
+
+### **1. Clonando o Repositório**
+
+```bash
+# Clone o repositório
+git clone https://github.com/Joaovictormartin/ReactJS-NLW-Journey.git
+
+# Instale as dependências
+yarn install
+
+# Execute o projeto
+yarn start
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+# Boas-vindas ao projeto Plann.er
+
+O **Plann.er** é sua plataforma completa para organizar e planejar viagens!  
+Com ele, você pode cadastrar atividades, adicionar links úteis e convidar amigos para colaborar no planejamento.
+
+Esse é um projeto do evento **NLW Journey**
+
+---
+
+## Overview do Projeto
+
+O **Plann.er** oferece as seguintes funcionalidades principais:
+
+- **Criar e organizar suas viagens**: Planeje tudo em um só lugar.
+- **Cadastrar atividades, eventos e locais de interesse**: Adicione passeios, reservas e pontos turísticos.
+- **Convidar amigos**: Compartilhe e colabore com amigos no planejamento.
+- **Adicionar links úteis**: Centralize mapas, reservas de hotéis ou guias de viagem.
+
+<div align="center">
+    <img src="./banner/screenshot.gif" height="500" alt="screenshot gif">
+</div>
+
+---
+
+## Como executar o projeto
+
+Para executar o **Plann.er**, siga os passos abaixo:
+
+### **1. Clonando o Repositório**
+
+```bash
+# Clone o repositório
+git clone https://github.com/Joaovictormartin/ReactJS-NLW-Journey.git
+
+# Acesse a pasta do projeto
+cd ReactJS-NLW-Journey
+
+# Instale as dependências
+yarn install
+
+# Execute o projeto
+yarn start
+
+---
+
+### Tecnologias Utilizadas
+
+- **React**
+- **ViteeJS**
+- **TypeScript**
+- **React Query**
+- **Tailwind CSS**
+```
